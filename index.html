@@ -487,7 +487,7 @@
                         </a>
                     </div>
                 </div>
-                <form class="contact-form animate-on-scroll" id="contactForm">
+                <form class="contact-form animate-on-scroll" id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
                     <div class="form-group">
                         <input type="text" id="name" name="name" required placeholder=" ">
                         <label for="name">Your Name</label>
@@ -508,10 +508,11 @@
                         <label for="message">Your Message</label>
                         <i class="fas fa-comment-alt form-icon"></i>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-full">
+                    <button type="submit" class="btn btn-primary btn-full" id="submitBtn">
                         <span>Send Message</span>
                         <i class="fas fa-paper-plane btn-icon"></i>
                     </button>
+                    <p class="form-status" id="formStatus"></p>
                 </form>
             </div>
         </div>

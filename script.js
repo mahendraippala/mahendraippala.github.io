@@ -192,20 +192,55 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // ===================================
 // Contact Form
 // ===================================
-contactForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    
-    const formData = new FormData(contactForm);
-    const data = Object.fromEntries(formData);
-    
-    const subject = encodeURIComponent(data.subject);
-    const body = encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`);
-    const mailtoLink = `mailto:mahendra.ippala@gmail.com?subject=${subject}&body=${body}`;
-    
-    window.location.href = mailtoLink;
-    showNotification('Opening your email client...');
-    contactForm.reset();
-});
+const contactForm = document.getElementById('contactForm');
+const formStatus = document.getElementById('formStatus');
+const submitBtn = document.getElementById('submitBtn');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(contactForm);
+        
+        // Change button state
+        const originalBtnText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<span>Sending...</span><i class="fas fa-spinner fa-spin btn-icon"></i>';
+        submitBtn.disabled = true;
+        
+        try {
+            const response = await fetch(contactForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                formStatus.textContent = '✅ Message sent successfully! I\'ll get back to you soon.';
+                formStatus.className = 'form-status success';
+                contactForm.reset();
+            } else {
+                const data = await response.json();
+                formStatus.textContent = '❌ ' + (data.errors ? data.errors[0].message : 'Something went wrong. Please try again.');
+                formStatus.className = 'form-status error';
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        } catch (error) {
+            formStatus.textContent = '❌ Network error. Please check your connection and try again.';
+            formStatus.className = 'form-status error';
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+        }
+        
+        // Clear status after 5 seconds
+        setTimeout(() => {
+            formStatus.textContent = '';
+            formStatus.className = 'form-status';
+        }, 5000);
+    });
+}
 
 // ===================================
 // Notification System
