@@ -192,7 +192,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // ===================================
 // Contact Form
 // ===================================
-const contactForm = document.getElementById('contactForm');
 const formStatus = document.getElementById('formStatus');
 const submitBtn = document.getElementById('submitBtn');
 
@@ -220,6 +219,10 @@ if (contactForm) {
                 formStatus.textContent = '✅ Message sent successfully! I\'ll get back to you soon.';
                 formStatus.className = 'form-status success';
                 contactForm.reset();
+                
+                // Restore button state after successful submission
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
             } else {
                 const data = await response.json();
                 formStatus.textContent = '❌ ' + (data.errors ? data.errors[0].message : 'Something went wrong. Please try again.');
