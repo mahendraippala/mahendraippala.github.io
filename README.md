@@ -4,7 +4,7 @@ A modern, responsive portfolio website showcasing my work as a Cloud Solutions A
 
 ## 🚀 View Live
 
-Visit the live portfolio at: [https://mahendraippala.github.io/portfolio](https://mahendraippala.github.io/portfolio)
+Visit the live portfolio at: [https://mahendraippala.github.io](https://mahendraippala.github.io)
 
 ## 📁 Project Structure
 
